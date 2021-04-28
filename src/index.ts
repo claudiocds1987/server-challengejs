@@ -19,7 +19,7 @@ app.use(userRoutes);
 
 
 // Configuro el puerto. Tomo el puerto del sistema operativo o el 3000
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 4000);
 
 // Inicio el servidor
 app.listen(app.get("port"), () => {
