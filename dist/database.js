@@ -2,15 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pool = void 0;
 const pg_1 = require("pg");
-// ESTA ES LA QUE DEBERIA USAR
-// export const pool = new Pool({
-//     user: 'fbzmomwlncodsl',
-//     host: 'ec2-107-20-153-39.compute-1.amazonaws.com',
-//     password: '08fa814ed4e75f58060226ed70ebc431c77ace0d783ae2c1fb859840edbb64ac',
-//     database: 'd19fau59l1s6be',
-//     ssl: { "rejectUnauthorized": false },
-//     port: 5432
-// })
 // ESTA ES LA DE BOOKSTORE-SERVER
 exports.pool = new pg_1.Pool({
     user: 'ohcmjxflybhuxs',
