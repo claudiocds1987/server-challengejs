@@ -54,14 +54,14 @@ export const createUser = async (req: Request, res: Response) => {
       });
   };
 
-  export const signin = async (req: Request, res: Response) => {
+  export const login = async (req: Request, res: Response) => {
     
     if (!req.body.email || !req.body.password) {
       res.status(400).send("FALTA CONTENIDO EN EL CUERPO");
       return;
     }
    
-    await pool.query(`SELECT * FROM user WHERE user.email = '${req.body.email}'`).then((data) => {
+    await pool.query(`SELECT * FROM alkemy_user WHERE email = '${req.body.email}'`).then((data) => {
         // obtengo el pass que devolvio la query
         const password = data.rows[0].password;
         // obtengo el email que devolvio la query
@@ -71,7 +71,7 @@ export const createUser = async (req: Request, res: Response) => {
         // comparo las contraseñas
         const resultPassword = bcrypt.compareSync(req.body.password, password);
         if (resultPassword) {
-            res.status(200).send({ message: "The password is perfect!" });    
+            res.status(200).send({ message: "The password is perfect!" });
         } else {
           console.log("las contraseñas no son iguales");
           // la contraseña es incorrecta

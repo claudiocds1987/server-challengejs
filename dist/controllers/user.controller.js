@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signin = exports.createUser = exports.getUser = exports.getUsers = void 0;
+exports.login = exports.createUser = exports.getUser = exports.getUsers = void 0;
 // import de conexion a db postgresql
 const database_1 = require("../database");
 // para encriptar password
@@ -59,12 +59,12 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     });
 });
 exports.createUser = createUser;
-const signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.email || !req.body.password) {
         res.status(400).send("FALTA CONTENIDO EN EL CUERPO");
         return;
     }
-    yield database_1.pool.query(`SELECT * FROM user WHERE user.email = '${req.body.email}'`).then((data) => {
+    yield database_1.pool.query(`SELECT * FROM alkemy_user WHERE email = '${req.body.email}'`).then((data) => {
         // obtengo el pass que devolvio la query
         const password = data.rows[0].password;
         // obtengo el email que devolvio la query
@@ -88,4 +88,4 @@ const signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .send({ message: "Error the email is not valid! " + error });
     });
 });
-exports.signin = signin;
+exports.login = login;
