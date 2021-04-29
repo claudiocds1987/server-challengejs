@@ -16,7 +16,9 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 // IMPORTS DE LAS RUTAS
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
+const operation_routes_1 = __importDefault(require("./routes/operation.routes"));
 app.use(user_routes_1.default);
+app.use(operation_routes_1.default);
 // Configuro el puerto. Tomo el puerto del sistema operativo o el 3000
 app.set("port", process.env.PORT || 4000);
 // Inicio el servidor

@@ -13,9 +13,11 @@ app.use(express.urlencoded({extended: false}))
 
 // IMPORTS DE LAS RUTAS
 import userRoutes from './routes/user.routes';
+import operationRoutes from './routes/operation.routes';
 
 
 app.use(userRoutes);
+app.use(operationRoutes);
 
 
 // Configuro el puerto. Tomo el puerto del sistema operativo o el 3000

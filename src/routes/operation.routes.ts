@@ -3,10 +3,13 @@ import {Router} from 'express'
 
 const router = Router();
 
-// import de los controllers
+// import operation-controller
+import { createOperation, getAllOperationsByUserAndType } from '../controllers/operation.controller';
 
+// routes
+router.post('/api/operations', createOperation);
+router.get('/api/operations/:email/:type', getAllOperationsByUserAndType);
 
-//routes
 
 
 
