@@ -15,9 +15,11 @@ app.use(express_1.default.json());
 // para convertir los datos enviados de un form html en objeto json
 app.use(express_1.default.urlencoded({ extended: false }));
 // IMPORTS DE LAS RUTAS
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const operation_routes_1 = __importDefault(require("./routes/operation.routes"));
 const category_routes_1 = __importDefault(require("./routes/category.routes"));
+app.use(auth_routes_1.default);
 app.use(user_routes_1.default);
 app.use(operation_routes_1.default);
 app.use(category_routes_1.default);

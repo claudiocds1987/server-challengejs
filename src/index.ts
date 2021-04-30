@@ -12,10 +12,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 
 // IMPORTS DE LAS RUTAS
+import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import operationRoutes from './routes/operation.routes';
 import categoryRoutes from './routes/category.routes';
 
+app.use(authRoutes);
 app.use(userRoutes);
 app.use(operationRoutes);
 app.use(categoryRoutes);
