@@ -7,6 +7,8 @@ const router = express_1.Router();
 const operation_controller_1 = require("../controllers/operation.controller");
 // routes
 router.post('/api/operations', operation_controller_1.createOperation);
-router.get('/api/operations/:email/:type', operation_controller_1.getAllOperationsByUserAndType);
+router.get('/api/operations/:email/:type', operation_controller_1.getOperationsByUserAndType);
+//router.get('/api/operations/:type', getOperationsByType);//?
+router.get('/api/operations', operation_controller_1.getOperations);
 // export del objeto router para que lo puedan usar otros archivos
 exports.default = router;

@@ -9,14 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.createUser = exports.getUser = exports.getUsers = void 0;
+exports.login = exports.createUser = exports.checkUserEmail = exports.getUser = exports.getLastUsers = exports.getUsers = void 0;
 // import de conexion a db postgresql
 const database_1 = require("../database");
 // para encriptar password
 const bcrypt = require('bcrypt');
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield database_1.pool.query('SELECT * FROM user');
+        const response = yield database_1.pool.query('SELECT email, registration_date FROM alkemy_user ORDER BY registration_date DESC');
         return res.status(200).json(response.rows);
     }
     catch (e) {
@@ -25,6 +25,21 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUsers = getUsers;
+const getLastUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const a = 'SELECT email, registration_date FROM alkemy_user';
+    const b = ' ORDER BY registration_date DESC';
+    const c = ' LIMIT 10';
+    const query = a + b + c;
+    try {
+        const response = yield database_1.pool.query(query);
+        return res.status(200).json(response.rows);
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json('Internal Server Error');
+    }
+});
+exports.getLastUsers = getLastUsers;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield database_1.pool.query(`SELECT user.email FROM user WHERE user.email = '${req.params.email}'`);
@@ -36,18 +51,38 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUser = getUser;
+const checkUserEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.params.email) {
+        return res.status(400).send({
+            message: "FALTA CONTENIDO EN EL CUERPO"
+        });
+    }
+    console.log('email recibido:' + req.params.email);
+    try {
+        const response = yield database_1.pool.query(`SELECT * FROM alkemy_user WHERE email LIKE '%${req.params.email}%'`);
+        if (res.json(response.rowCount > 0)) {
+            // si existe email en Angular obtengo true sino false
+            return res.status(200);
+        }
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).json('error al buscar el email de usuario');
+    }
+});
+exports.checkUserEmail = checkUserEmail;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email || !req.body.password || !req.body.registration_date) {
         res.status(400).send("FALTA CONTENIDO EN EL CUERPO");
         return;
     }
     //guardo en constantes los datos recibidos Angular
-    const { email, password } = req.body;
+    const { email, password, registration_date } = req.body;
     console.log("Datos recibidos: ", email, password);
     const hash = yield bcrypt.hash(password, 10); // encripta el password
     // insert en PostgreSQL
     yield database_1.pool
-        .query("INSERT INTO public.alkemy_user (email, password) VALUES ($1, $2);", [email, hash])
+        .query("INSERT INTO public.alkemy_user (email, password, registration_date) VALUES ($1, $2, $3);", [email, hash, registration_date])
         .then((data) => {
         res.status(200).send({ message: "The user was inserted successfuly" });
     })

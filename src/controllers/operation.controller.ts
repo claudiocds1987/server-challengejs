@@ -4,7 +4,49 @@ import {QueryResult} from 'pg';
 // import de conexion a db postgresql
 import {pool} from '../database';
 
-export const getAllOperationsByUserAndType = async (
+export const getOperations = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+
+  try {
+    const response: QueryResult = await pool.query('select * from alkemy_operations');
+    return res.status(200).json(response.rows);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
+};  
+
+
+// export const getOperationsByType = async (
+//   req: Request,
+//   res: Response
+// ): Promise<Response> => {
+
+//   if (!req.params.type) {
+//     return res.status(400).send({
+//       message:
+//         "FALTA CONTENIDO EN EL CUERPO"
+//     });
+//   }
+
+//   try {
+
+//     const a = 'select * from alkemy_operations ';
+//     const b = 'where type = $1';
+    
+//     const query = a + b;
+
+//     const response: QueryResult = await pool.query(query, [req.params.type]);
+//     return res.status(200).json(response.rows);
+//   } catch (e) {
+//     console.log(e);
+//     return res.status(500).json("Internal server error");
+//   }
+// };  
+
+export const getOperationsByUserAndType = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -74,3 +116,4 @@ export const createOperation = async (req: Request, res: Response): Promise<Resp
   }
     
 };   
+

@@ -9,10 +9,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createOperation = exports.getAllOperationsByUserAndType = void 0;
+exports.createOperation = exports.getOperationsByUserAndType = exports.getOperations = void 0;
 // import de conexion a db postgresql
 const database_1 = require("../database");
-const getAllOperationsByUserAndType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getOperations = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield database_1.pool.query('select * from alkemy_operations');
+        return res.status(200).json(response.rows);
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json("Internal server error");
+    }
+});
+exports.getOperations = getOperations;
+// export const getOperationsByType = async (
+//   req: Request,
+//   res: Response
+// ): Promise<Response> => {
+//   if (!req.params.type) {
+//     return res.status(400).send({
+//       message:
+//         "FALTA CONTENIDO EN EL CUERPO"
+//     });
+//   }
+//   try {
+//     const a = 'select * from alkemy_operations ';
+//     const b = 'where type = $1';
+//     const query = a + b;
+//     const response: QueryResult = await pool.query(query, [req.params.type]);
+//     return res.status(200).json(response.rows);
+//   } catch (e) {
+//     console.log(e);
+//     return res.status(500).json("Internal server error");
+//   }
+// };  
+const getOperationsByUserAndType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userEmail = req.params.email;
     const type = req.params.type;
     try {
@@ -32,7 +64,7 @@ const getAllOperationsByUserAndType = (req, res) => __awaiter(void 0, void 0, vo
         return res.status(500).json("Internal server error");
     }
 });
-exports.getAllOperationsByUserAndType = getAllOperationsByUserAndType;
+exports.getOperationsByUserAndType = getOperationsByUserAndType;
 const createOperation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body) {
         return res.status(400).send({
