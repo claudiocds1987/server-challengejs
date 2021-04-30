@@ -6,7 +6,7 @@ import {pool} from '../database';
 // para encriptar password
 const bcrypt = require('bcrypt'); 
 
-export const createUser = async (req: Request, res: Response) => {
+export const signup = async (req: Request, res: Response) => {
     
     if (!req.body.email || !req.body.password || !req.body.registration_date) {
       res.status(400).send("FALTA CONTENIDO EN EL CUERPO");
