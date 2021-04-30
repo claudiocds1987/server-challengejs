@@ -16,7 +16,15 @@ const getAllOperationsByUserAndType = (req, res) => __awaiter(void 0, void 0, vo
     const userEmail = req.params.email;
     const type = req.params.type;
     try {
-        const response = yield database_1.pool.query("SELECT * FROM alkemy_operations WHERE user_email = $1 AND type = $2", [userEmail, type]);
+        const a = 'SELECT alkemy_categories.name as category, id_operation, concept, amount, date ';
+        const b = 'FROM alkemy_operations ';
+        const c = 'INNER JOIN alkemy_categories ';
+        const d = 'ON alkemy_operations.category = alkemy_categories.id ';
+        const e = 'WHERE user_email = $1 ';
+        const f = 'AND type = $2';
+        const query = a + b + c + d + e + f;
+        // const response: QueryResult = await pool.query("SELECT * FROM alkemy_operations WHERE user_email = $1 AND type = $2", [userEmail, type]);
+        const response = yield database_1.pool.query(query, [userEmail, type]);
         return res.status(200).json(response.rows);
     }
     catch (e) {
@@ -33,6 +41,7 @@ const createOperation = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     const { userEmail, concept, amount, date, type, category, } = req.body;
     const _amount = parseInt(amount);
+    const _category = parseInt(category);
     const a = "INSERT INTO public.alkemy_operations(";
     const b = "user_email, concept, amount, date, type, category)";
     const c = " VALUES ($1, $2, $3, $4, $5, $6);";
@@ -40,7 +49,7 @@ const createOperation = (req, res) => __awaiter(void 0, void 0, void 0, function
     console.log(req.body);
     try {
         // insert en PostgreSQL
-        yield database_1.pool.query(query, [userEmail, concept, _amount, date, type, category]);
+        yield database_1.pool.query(query, [userEmail, concept, _amount, date, type, _category]);
         return res.status(200).json(`The operation was inserted successfuly`);
     }
     catch (e) {
