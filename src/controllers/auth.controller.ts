@@ -47,8 +47,6 @@ export const login = async (req: Request, res: Response) => {
         const password = data.rows[0].password;
         // obtengo el email que devolvio la query
         const email = data.rows[0].email
-        // console.log('password del usuario: ' + password);
-        // console.log('ID usuario: ' + idUser);
         // comparo las contraseñas
         const resultPassword = bcrypt.compareSync(req.body.password, password);
         if (resultPassword) {

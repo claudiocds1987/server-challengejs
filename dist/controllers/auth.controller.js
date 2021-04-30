@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.createUser = void 0;
+exports.login = exports.signup = void 0;
 // import de conexion a db postgresql
 const database_1 = require("../database");
 // para encriptar password
 const bcrypt = require('bcrypt');
-const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.email || !req.body.password || !req.body.registration_date) {
         res.status(400).send("FALTA CONTENIDO EN EL CUERPO");
         return;
@@ -36,7 +36,7 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     });
 });
-exports.createUser = createUser;
+exports.signup = signup;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.email || !req.body.password) {
         res.status(400).send("FALTA CONTENIDO EN EL CUERPO");
