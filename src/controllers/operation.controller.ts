@@ -46,6 +46,45 @@ export const getOperations = async (
 //   }
 // };  
 
+
+export const filterOperationByUser = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+
+  const email = req.params.email;
+  const value = req.params.search;
+
+  console.log('RECIBIENDO: ' + email, value);
+  
+  const a = 'SELECT alkemy_categories.name as category, id_operation, concept, amount, date ';
+  const b = 'FROM alkemy_operations ';
+  const c = 'INNER JOIN alkemy_categories ';
+  const d = 'ON alkemy_operations.category = alkemy_categories.id ';
+  const e = 'WHERE user_email = $1 ';
+  let aux = 'AND ';
+
+  if(value === 'ingreso' || value === 'egreso'){
+    aux += 'type = $2';
+  }else{
+    const category = parseInt(value);
+    aux += 'category = $2';
+  }
+
+  const query = a + b + c + d + e + aux;
+
+  try {
+
+    // const response: QueryResult = await pool.query("SELECT * FROM alkemy_operations WHERE user_email = $1 AND type = $2", [userEmail, type]);
+    const response: QueryResult = await pool.query(query, [email, value]);
+    return res.status(200).json(response.rows);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
+};  
+
+
 export const getOperationsByUserAndType = async (
   req: Request,
   res: Response
