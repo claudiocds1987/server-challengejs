@@ -11,10 +11,5 @@ router.post('/api/operations', createOperation);
 router.get('/api/operations/filter/:email/:search', filterOperationByUser);
 router.get('/api/operations', getOperations);
 
-
-
-
-
-
 // export del objeto router para que lo puedan usar otros archivos
 export default router;
