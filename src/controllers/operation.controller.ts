@@ -18,6 +18,29 @@ export const getOperations = async (
   }
 };  
 
+export const getOperation = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+
+  if (!req.params.id_operation) {
+    return res.status(400).send({
+      message:
+        "FALTA CONTENIDO EN EL CUERPO"
+    });
+  }
+
+  const query = 'SELECT * FROM alkemy_operations WHERE id_operation = $1 AND state = true';
+
+  try {
+    const response: QueryResult = await pool.query(query, [req.params.id_operation]);
+    return res.status(200).json(response.rows);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
+};  
+
 
 export const filterOperationByUser = async (
   req: Request,
@@ -108,6 +131,69 @@ export const createOperation = async (req: Request, res: Response): Promise<Resp
     
 };
 
+export const updateOperation = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+
+  if (!req.body || !req.params.id_operation) {
+    return res.status(400).send({
+      message:
+        "FALTA CONTENIDO EN EL CUERPO"
+    });
+}
+
+  const {
+    id_operation,
+    userEmail,
+    concept,
+    amount,
+    date,
+    type,
+    category,
+    state
+  } = req.body;
+  
+  console.log(req.body);
+
+  const id_op = parseInt(id_operation);
+
+  const a = 'UPDATE alkemy_operations SET user_email = $1, concept = $2, amount = $3, date = $4, type = $5,';
+  const b = ' category = $6, state = $7';
+  const c = ' WHERE id_operation = $8';
+  const query = a + b + c;
+  
+  await pool.query(
+    query,
+    [
+      userEmail,
+      concept,
+      amount,
+      date,
+      type,
+      category,
+      state,
+      id_op 
+    ]
+  );
+  return res.status(200).json('Operation updated successfully!'); 
+  // return res.json({
+  //   message: "Operation updated successfully!",
+  //   body: {
+  //     Operation: {
+  //       id_operation,
+  //       userEmail,
+  //       concept,
+  //       amount,
+  //       date,
+  //       type,
+  //       category,
+  //       state    
+  //     },
+  //   },
+  // });
+};
+
 export const deleteOperation = async (req: Request, res: Response): Promise<Response> => {
   if (!req.params.id_operation) {
     return res.status(400).send({
@@ -118,7 +204,7 @@ export const deleteOperation = async (req: Request, res: Response): Promise<Resp
    try {
    const id_operation = parseInt(req.params.id_operation);
     await pool.query('UPDATE public.Alkemy_operations SET state = false WHERE id_operation = $1', [id_operation]);
-    return res.status(200).json(`Operation eliminated!`);    
+    return res.status(200).json('Operation deleted!');    
   } catch (e) {
     console.log(e);
     return res
