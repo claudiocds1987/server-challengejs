@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createOperation = exports.filterOperationByUser = exports.getOperations = void 0;
+exports.deleteOperation = exports.createOperation = exports.filterOperationByUser = exports.getOperations = void 0;
 // import de conexion a db postgresql
 const database_1 = require("../database");
 const getOperations = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -84,3 +84,22 @@ const createOperation = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.createOperation = createOperation;
+const deleteOperation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.params.id_operation) {
+        return res.status(400).send({
+            message: "FALTA CONTENIDO EN EL CUERPO, falta el id de operación",
+        });
+    }
+    try {
+        const id_operation = parseInt(req.params.id_operation);
+        yield database_1.pool.query('UPDATE public.Alkemy_operations SET state = false WHERE id_operation = $1', [id_operation]);
+        return res.status(200).json(`Operation eliminated!`);
+    }
+    catch (e) {
+        console.log(e);
+        return res
+            .status(500)
+            .json("error trying to delete operation");
+    }
+});
+exports.deleteOperation = deleteOperation;

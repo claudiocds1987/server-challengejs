@@ -106,5 +106,24 @@ export const createOperation = async (req: Request, res: Response): Promise<Resp
       .json("error to insert operation");
   }
     
-};   
+};
+
+export const deleteOperation = async (req: Request, res: Response): Promise<Response> => {
+  if (!req.params.id_operation) {
+    return res.status(400).send({
+      message:
+        "FALTA CONTENIDO EN EL CUERPO, falta el id de operación",
+    });
+  }
+   try {
+   const id_operation = parseInt(req.params.id_operation);
+    await pool.query('UPDATE public.Alkemy_operations SET state = false WHERE id_operation = $1', [id_operation]);
+    return res.status(200).json(`Operation eliminated!`);    
+  } catch (e) {
+    console.log(e);
+    return res
+      .status(500)
+      .json("error trying to delete operation");
+  }
+}
 
