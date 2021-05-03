@@ -1,4 +1,3 @@
-// router de express para crear las rutas
 import {Router} from 'express'
 
 const router = Router();

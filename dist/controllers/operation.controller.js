@@ -60,7 +60,6 @@ const filterOperationByUser = (req, res) => __awaiter(void 0, void 0, void 0, fu
         aux += 'type = $2';
     }
     else {
-        // const category = parseInt(value);
         aux += 'category = $2';
     }
     const query = a + b + c + d + e + aux + f;
@@ -89,7 +88,6 @@ const createOperation = (req, res) => __awaiter(void 0, void 0, void 0, function
     const query = a + b + c;
     console.log(req.body);
     try {
-        // insert en PostgreSQL
         yield database_1.pool.query(query, [userEmail, concept, _amount, date, type, _category, state]);
         return res.status(200).json(`The operation was inserted successfuly`);
     }
@@ -125,21 +123,6 @@ const updateOperation = (req, res) => __awaiter(void 0, void 0, void 0, function
         id_op
     ]);
     return res.status(200).json('Operation updated successfully!');
-    // return res.json({
-    //   message: "Operation updated successfully!",
-    //   body: {
-    //     Operation: {
-    //       id_operation,
-    //       userEmail,
-    //       concept,
-    //       amount,
-    //       date,
-    //       type,
-    //       category,
-    //       state    
-    //     },
-    //   },
-    // });
 });
 exports.updateOperation = updateOperation;
 const deleteOperation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

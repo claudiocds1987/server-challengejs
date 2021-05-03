@@ -70,7 +70,6 @@ export const filterOperationByUser = async (
   if(value === 'ingreso' || value === 'egreso'){
     aux += 'type = $2';
   }else{
-    // const category = parseInt(value);
     aux += 'category = $2';
   }
 
@@ -117,7 +116,6 @@ export const createOperation = async (req: Request, res: Response): Promise<Resp
   console.log(req.body);
 
   try {
-    // insert en PostgreSQL
     await pool.query(
       query,[userEmail, concept, _amount, date, type, _category, state]
     );
@@ -177,21 +175,6 @@ export const updateOperation = async (
     ]
   );
   return res.status(200).json('Operation updated successfully!'); 
-  // return res.json({
-  //   message: "Operation updated successfully!",
-  //   body: {
-  //     Operation: {
-  //       id_operation,
-  //       userEmail,
-  //       concept,
-  //       amount,
-  //       date,
-  //       type,
-  //       category,
-  //       state    
-  //     },
-  //   },
-  // });
 };
 
 export const deleteOperation = async (req: Request, res: Response): Promise<Response> => {

@@ -1,4 +1,3 @@
-// router de express para crear las rutas
 import {Router} from 'express'
 
 const router = Router();
@@ -14,5 +13,4 @@ router.get('/api/operations', getOperations);
 router.put('/api/operations/:id_operation', updateOperation);
 router.put('/api/operations/delete/:id_operation', deleteOperation);
 
-// export del objeto router para que lo puedan usar otros archivos
 export default router;
