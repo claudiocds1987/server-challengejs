@@ -4,15 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const morgan = require('morgan'); // ?
-// despues de instalar express instalar npm i @types/express -D para que typescript entienda express
+const morgan = require('morgan');
 const app = express_1.default();
-app.use(morgan('dev')); // ?
+app.use(morgan('dev'));
 const cors = require("cors");
 app.use(cors());
 // MIDDLEWARES
 app.use(express_1.default.json());
-// para convertir los datos enviados de un form html en objeto json
 app.use(express_1.default.urlencoded({ extended: false }));
 // IMPORTS DE LAS RUTAS
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
@@ -23,7 +21,7 @@ app.use(auth_routes_1.default);
 app.use(user_routes_1.default);
 app.use(operation_routes_1.default);
 app.use(category_routes_1.default);
-// Configuro el puerto. Tomo el puerto del sistema operativo o el 3000
+// Tomo el puerto del sistema operativo o el 4000
 app.set("port", process.env.PORT || 4000);
 // Inicio el servidor
 app.listen(app.get("port"), () => {
@@ -32,6 +30,3 @@ app.listen(app.get("port"), () => {
 app.get("/", (req, res) => {
     res.send("Welcome to my API");
 });
-// app.listen(4000, () => {
-//     console.log('Server corriendo on port', 4000)
-// })

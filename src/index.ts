@@ -1,14 +1,12 @@
 import express from 'express';
-const morgan = require('morgan'); // ?
-// despues de instalar express instalar npm i @types/express -D para que typescript entienda express
+const morgan = require('morgan');
 const app = express();
-app.use(morgan('dev')); // ?
+app.use(morgan('dev'));
 
 const cors = require("cors");
 app.use(cors());
 // MIDDLEWARES
 app.use(express.json());
-// para convertir los datos enviados de un form html en objeto json
 app.use(express.urlencoded({extended: false}))
 
 // IMPORTS DE LAS RUTAS
@@ -22,8 +20,7 @@ app.use(userRoutes);
 app.use(operationRoutes);
 app.use(categoryRoutes);
 
-
-// Configuro el puerto. Tomo el puerto del sistema operativo o el 3000
+// Tomo el puerto del sistema operativo o el 4000
 app.set("port", process.env.PORT || 4000);
 
 // Inicio el servidor
@@ -34,7 +31,3 @@ app.listen(app.get("port"), () => {
 app.get("/", (req, res) => {
   res.send("Welcome to my API");
 });
-
-// app.listen(4000, () => {
-//     console.log('Server corriendo on port', 4000)
-// })
