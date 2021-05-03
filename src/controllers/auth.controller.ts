@@ -41,15 +41,14 @@ export const login = async (req: Request, res: Response) => {
     }
    
     await pool.query(`SELECT * FROM alkemy_user WHERE email = '${req.body.email}'`).then((data) => {
-        // obtengo el pass y email que de query
+        // obtengo el password de la respuesta
         const password = data.rows[0].password;
-        const email = data.rows[0].email;
         // comparo las contraseñas
         const resultPassword = bcrypt.compareSync(req.body.password, password);
         if (resultPassword) {
             res.status(200).send({ message: "The password is perfect!" });
         } else {
-          console.log("las contraseñas no son iguales");
+          console.log("Perfect the passwords are equal!");
           return res.status(400).send({ message: "The password is not correct!" });
         }
       })
