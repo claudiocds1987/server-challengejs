@@ -21,8 +21,8 @@ app.use(auth_routes_1.default);
 app.use(user_routes_1.default);
 app.use(operation_routes_1.default);
 app.use(category_routes_1.default);
-// Tomo el puerto del sistema operativo o el 4000
-app.set("port", process.env.PORT || 4000);
+// Tomo el puerto del sistema operativo o el 3000
+app.set("port", process.env.PORT || 3000);
 // Inicio el servidor
 app.listen(app.get("port"), () => {
     console.log("usuarios server on port:", app.get("port"));
