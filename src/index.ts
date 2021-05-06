@@ -20,7 +20,7 @@ app.use(userRoutes);
 app.use(operationRoutes);
 app.use(categoryRoutes);
 
-// Tomo el puerto del sistema operativo o el 4000
+// Tomo el puerto del sistema operativo o el 4000.
 app.set("port", process.env.PORT || 4000);
 
 // Inicio el servidor
