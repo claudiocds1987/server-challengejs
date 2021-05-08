@@ -1,4 +1,7 @@
 import {Router} from 'express'
+import express from "express";
+const app = express();
+const cors = require("cors");
 
 const router = Router();
 
