@@ -49,7 +49,7 @@ const filterOperationByUser = (req, res) => __awaiter(void 0, void 0, void 0, fu
     const email = req.params.email;
     const value = req.params.search;
     console.log('RECIBIENDO: ' + email, value);
-    const a = 'SELECT alkemy_categories.name as category, id_operation, concept, amount, date ';
+    const a = 'SELECT alkemy_categories.name as category, id_operation, concept, amount, type, date ';
     const b = 'FROM alkemy_operations ';
     const c = 'INNER JOIN alkemy_categories ';
     const d = 'ON alkemy_operations.category = alkemy_categories.id ';
