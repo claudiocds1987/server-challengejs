@@ -36,7 +36,7 @@ const getOperationsByUser = (req, res) => __awaiter(void 0, void 0, void 0, func
     const c = 'INNER JOIN alkemy_categories ';
     const d = 'ON alkemy_operations.category = alkemy_categories.id ';
     const e = 'WHERE user_email = $1 ';
-    const f = 'AND state = true';
+    const f = 'AND state = true order by date desc';
     const query = a + b + c + d + e + f;
     try {
         const response = yield database_1.pool.query(query, [email]);

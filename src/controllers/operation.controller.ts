@@ -38,7 +38,7 @@ export const getOperationsByUser = async (
   const c = 'INNER JOIN alkemy_categories ';
   const d = 'ON alkemy_operations.category = alkemy_categories.id ';
   const e = 'WHERE user_email = $1 ';
-  const f = 'AND state = true'
+  const f = 'AND state = true order by date desc'
   const query = a + b + c + d + e + f;
 
   try {
