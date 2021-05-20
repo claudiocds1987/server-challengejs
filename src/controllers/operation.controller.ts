@@ -10,7 +10,39 @@ export const getOperations = async (
 ): Promise<Response> => {
 
   try {
-    const response: QueryResult = await pool.query('SELECT * FROM alkemy_operations WHERE state = true');
+    const response: QueryResult = await pool.query('SELECT * FROM alkemy_operations WHERE state = true order by date desc');
+    return res.status(200).json(response.rows);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
+};  
+
+export const getOperationsByUser = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+
+  if (!req.params.email) {
+    return res.status(400).send({
+      message:
+        "FALTA CONTENIDO EN EL CUERPO"
+    });
+  }
+
+  const email = req.params.email;
+  console.log('aca email: ' + email)
+
+  const a = 'SELECT alkemy_categories.name as category, id_operation, concept, amount, type, date ';
+  const b = 'FROM alkemy_operations ';
+  const c = 'INNER JOIN alkemy_categories ';
+  const d = 'ON alkemy_operations.category = alkemy_categories.id ';
+  const e = 'WHERE user_email = $1 ';
+  const f = 'AND state = true'
+  const query = a + b + c + d + e + f;
+
+  try {
+    const response: QueryResult = await pool.query(query, [email]);
     return res.status(200).json(response.rows);
   } catch (e) {
     console.log(e);

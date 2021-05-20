@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteOperation = exports.updateOperation = exports.createOperation = exports.filterOperationByUser = exports.getOperation = exports.getOperations = void 0;
+exports.deleteOperation = exports.updateOperation = exports.createOperation = exports.filterOperationByUser = exports.getOperation = exports.getOperationsByUser = exports.getOperations = void 0;
 // import de conexion a db postgresql
 const database_1 = require("../database");
 const getOperations = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield database_1.pool.query('SELECT * FROM alkemy_operations WHERE state = true');
+        const response = yield database_1.pool.query('SELECT * FROM alkemy_operations WHERE state = true order by date desc');
         return res.status(200).json(response.rows);
     }
     catch (e) {
@@ -23,6 +23,31 @@ const getOperations = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getOperations = getOperations;
+const getOperationsByUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.params.email) {
+        return res.status(400).send({
+            message: "FALTA CONTENIDO EN EL CUERPO"
+        });
+    }
+    const email = req.params.email;
+    console.log('aca email: ' + email);
+    const a = 'SELECT alkemy_categories.name as category, id_operation, concept, amount, type, date ';
+    const b = 'FROM alkemy_operations ';
+    const c = 'INNER JOIN alkemy_categories ';
+    const d = 'ON alkemy_operations.category = alkemy_categories.id ';
+    const e = 'WHERE user_email = $1 ';
+    const f = 'AND state = true';
+    const query = a + b + c + d + e + f;
+    try {
+        const response = yield database_1.pool.query(query, [email]);
+        return res.status(200).json(response.rows);
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json("Internal server error");
+    }
+});
+exports.getOperationsByUser = getOperationsByUser;
 const getOperation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.params.id_operation) {
         return res.status(400).send({
