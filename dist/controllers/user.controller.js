@@ -57,7 +57,8 @@ const checkUserEmail = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     console.log('email recibido:' + req.params.email);
     try {
-        const response = yield database_1.pool.query(`SELECT * FROM alkemy_user WHERE email LIKE '%${req.params.email}%'`);
+        //   const response: QueryResult = await pool.query(`SELECT * FROM alkemy_user WHERE email LIKE '%${req.params.email}%'`);
+        const response = yield database_1.pool.query(`SELECT * FROM alkemy_user WHERE email = '${req.params.email}'`);
         if (res.json(response.rowCount > 0)) {
             return res.status(200);
         }
