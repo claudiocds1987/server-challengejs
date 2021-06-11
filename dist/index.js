@@ -24,6 +24,15 @@ app.use(auth_routes_1.default);
 app.use(user_routes_1.default);
 app.use(operation_routes_1.default);
 app.use(category_routes_1.default);
+// -----------------------------------------------------------------
+// Informo el error si hay datos que no son validos en el request
+app.use((error, req, res, next) => {
+    res.status(400).json({
+        status: 'error',
+        message: error.message,
+    });
+});
+// ------------------------------------------------------------------
 // Tomo el puerto del sistema operativo o el 4000.
 app.set("port", process.env.PORT || 4000);
 // Inicio el servidor

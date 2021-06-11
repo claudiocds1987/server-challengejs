@@ -23,6 +23,16 @@ app.use(userRoutes);
 app.use(operationRoutes);
 app.use(categoryRoutes);
 
+// -----------------------------------------------------------------
+// Informo el error si hay datos que no son validos en el request
+app.use((error, req, res, next) => {
+  res.status(400).json({
+      status: 'error',
+      message: error.message,
+  });
+});
+// ------------------------------------------------------------------
+
 // Tomo el puerto del sistema operativo o el 4000.
 app.set("port", process.env.PORT || 4000);
 
